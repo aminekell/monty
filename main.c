@@ -47,7 +47,6 @@ void free_nodes(void)
 
 	if (head == NULL)
 		return;
-
 	while (head != NULL)
 	{
 		temp = head;
@@ -55,8 +54,6 @@ void free_nodes(void)
 		free(temp);
 	}
 }
-
-
 /**
  * add_to_queue - Adds a node to the queue.
  * @new_nd: Pointer to the new node.
