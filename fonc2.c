@@ -1,97 +1,69 @@
 #include "monty.h"
 
-/**
- * nop - Does nothing.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @line_number: Interger representing the line number of of the opcode.
- */
-void nop(stack_t **stack, unsigned int line_number)
+void do_nothing(stack_t **stack_ptr, unsigned int line_num)
 {
-	(void)stack;
-	(void)line_number;
+    (void)stack_ptr;
+    (void)line_num;
 }
 
-
-/**
- * swap_nodes - Swaps the top two elements of the stack.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @line_number: Interger representing the line number of of the opcode.
- */
-void swap_nodes(stack_t **stack, unsigned int line_number)
+void swap_stack_nodes(stack_t **stack_ptr, unsigned int line_num)
 {
-	stack_t *tmp;
+    stack_t *temp;
 
-	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
-		more_err(8, line_number, "swap");
-	tmp = (*stack)->next;
-	(*stack)->next = tmp->next;
-	if (tmp->next != NULL)
-		tmp->next->prev = *stack;
-	tmp->next = *stack;
-	(*stack)->prev = tmp;
-	tmp->prev = NULL;
-	*stack = tmp;
+    if (stack_ptr == NULL || *stack_ptr == NULL || (*stack_ptr)->next == NULL)
+        more_err(8, line_num, "swap");
+
+    temp = (*stack_ptr)->next;
+    (*stack_ptr)->next = temp->next;
+    if (temp->next != NULL)
+        temp->next->prev = *stack_ptr;
+    temp->next = *stack_ptr;
+    (*stack_ptr)->prev = temp;
+    temp->prev = NULL;
+    *stack_ptr = temp;
 }
 
-/**
- * add_nodes - Adds the top two elements of the stack.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @line_number: Interger representing the line number of of the opcode.
- */
-void add_nodes(stack_t **stack, unsigned int line_number)
+void add_stack_nodes(stack_t **stack_ptr, unsigned int line_num)
 {
-	int sum;
+    int total;
 
-	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
-		more_err(8, line_number, "add");
+    if (stack_ptr == NULL || *stack_ptr == NULL || (*stack_ptr)->next == NULL)
+        more_err(8, line_num, "add");
 
-	(*stack) = (*stack)->next;
-	sum = (*stack)->n + (*stack)->prev->n;
-	(*stack)->n = sum;
-	free((*stack)->prev);
-	(*stack)->prev = NULL;
+    (*stack_ptr) = (*stack_ptr)->next;
+    total = (*stack_ptr)->n + (*stack_ptr)->prev->n;
+    (*stack_ptr)->n = total;
+    free((*stack_ptr)->prev);
+    (*stack_ptr)->prev = NULL;
 }
 
-
-/**
- * sub_nodes - Adds the top two elements of the stack.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @line_number: Interger representing the line number of of the opcode.
- */
-void sub_nodes(stack_t **stack, unsigned int line_number)
+void sub_stack_nodes(stack_t **stack_ptr, unsigned int line_num)
 {
-	int sum;
+    int total;
 
-	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
+    if (stack_ptr == NULL || *stack_ptr == NULL || (*stack_ptr)->next == NULL)
+        more_err(8, line_num, "sub");
 
-		more_err(8, line_number, "sub");
-
-
-	(*stack) = (*stack)->next;
-	sum = (*stack)->n - (*stack)->prev->n;
-	(*stack)->n = sum;
-	free((*stack)->prev);
-	(*stack)->prev = NULL;
+    (*stack_ptr) = (*stack_ptr)->next;
+    total = (*stack_ptr)->n - (*stack_ptr)->prev->n;
+    (*stack_ptr)->n = total;
+    free((*stack_ptr)->prev);
+    (*stack_ptr)->prev = NULL;
 }
 
-
-/**
- * div_nodes - Adds the top two elements of the stack.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @line_number: Interger representing the line number of of the opcode.
- */
-void div_nodes(stack_t **stack, unsigned int line_number)
+void div_stack_nodes(stack_t **stack_ptr, unsigned int line_num)
 {
-	int sum;
+    int total;
 
-	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
-		more_err(8, line_number, "div");
+    if (stack_ptr == NULL || *stack_ptr == NULL || (*stack_ptr)->next == NULL)
+        more_err(8, line_num, "div");
 
-	if ((*stack)->n == 0)
-		more_err(9, line_number);
-	(*stack) = (*stack)->next;
-	sum = (*stack)->n / (*stack)->prev->n;
-	(*stack)->n = sum;
-	free((*stack)->prev);
-	(*stack)->prev = NULL;
+    if ((*stack_ptr)->n == 0)
+        more_err(9, line_num);
+
+    (*stack_ptr) = (*stack_ptr)->next;
+    total = (*stack_ptr)->n / (*stack_ptr)->prev->n;
+    (*stack_ptr)->n = total;
+    free((*stack_ptr)->prev);
+    (*stack_ptr)->prev = NULL;
 }
