@@ -1,45 +1,43 @@
 #include "monty.h"
+#include "monty.h"
 
 /**
- * mul_nodes - Adds the top two elements of the stack.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @line_number: Interger representing the line number of of the opcode.
+ * multiplyNodes - Multiplies the top two elements of the stack.
+ * @stack: Pointer to a pointer pointing to the top node of the stack.
+ * @lineNumber: Integer representing the line number of the opcode.
  */
-void mul_nodes(stack_t **stack, unsigned int line_number)
+void multiplyNodes(stack_t **stack, unsigned int lineNumber)
 {
-	int sum;
+    int product;
 
-	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
-		more_err(8, line_number, "mul");
+    if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
+        moreError(8, lineNumber, "mul");
 
-	(*stack) = (*stack)->next;
-	sum = (*stack)->n * (*stack)->prev->n;
-	(*stack)->n = sum;
-	free((*stack)->prev);
-	(*stack)->prev = NULL;
+    (*stack) = (*stack)->next;
+    product = (*stack)->n * (*stack)->prev->n;
+    (*stack)->n = product;
+    free((*stack)->prev);
+    (*stack)->prev = NULL;
 }
-
 
 /**
- * mod_nodes - Adds the top two elements of the stack.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @line_number: Interger representing the line number of of the opcode.
+ * moduloNodes - Computes the modulo of the top two elements of the stack.
+ * @stack: Pointer to a pointer pointing to the top node of the stack.
+ * @lineNumber: Integer representing the line number of the opcode.
  */
-void mod_nodes(stack_t **stack, unsigned int line_number)
+void moduloNodes(stack_t **stack, unsigned int lineNumber)
 {
-	int sum;
+    int result;
 
-	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
+    if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
+        moreError(8, lineNumber, "mod");
 
-		more_err(8, line_number, "mod");
+    if ((*stack)->n == 0)
+        moreError(9, lineNumber);
 
-
-	if ((*stack)->n == 0)
-		more_err(9, line_number);
-	(*stack) = (*stack)->next;
-	sum = (*stack)->n % (*stack)->prev->n;
-	(*stack)->n = sum;
-	free((*stack)->prev);
-	(*stack)->prev = NULL;
+    (*stack) = (*stack)->next;
+    result = (*stack)->n % (*stack)->prev->n;
+    (*stack)->n = result;
+    free((*stack)->prev);
+    (*stack)->prev = NULL;
 }
-

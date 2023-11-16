@@ -1,5 +1,5 @@
 #include "monty.h"
-stack_t *head = NULL;
+stack_t *global_head = NULL;
 
 /**
  * main - entry point
@@ -8,34 +8,34 @@ stack_t *head = NULL;
  * Return: always 0
  */
 
-int main(int argc, char *argv[])
+int main(int argument_count, char *argument_values[])
 {
-	if (argc != 2)
-	{
-		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE);
-	}
-	open_file(argv[1]);
-	free_nodes();
-	return (0);
+    if (argument_count != 2)
+    {
+        fprintf(stderr, "USAGE: monty file\n");
+        exit(EXIT_FAILURE);
+    }
+    open_file(argument_values[1]);
+    free_nodes();
+    return (0);
 }
 
 /**
  * create_node - Creates a node.
- * @n: Number to go inside the node.
- * Return: Upon sucess a pointer to the node. Otherwise NULL.
+ * @value: Number to go inside the node.
+ * Return: Upon success, a pointer to the node. Otherwise, NULL.
  */
-stack_t *create_node(int n)
+stack_t *create_node(int value)
 {
-	stack_t *node;
+    stack_t *new_node;
 
-	node = malloc(sizeof(stack_t));
-	if (node == NULL)
-		err(4);
-	node->next = NULL;
-	node->prev = NULL;
-	node->n = n;
-	return (node);
+    new_node = malloc(sizeof(stack_t));
+    if (new_node == NULL)
+        err(4);
+    new_node->next = NULL;
+    new_node->prev = NULL;
+    new_node->n = value;
+    return (new_node);
 }
 
 /**
@@ -43,42 +43,39 @@ stack_t *create_node(int n)
  */
 void free_nodes(void)
 {
-	stack_t *tmp;
+    stack_t *temporary_node;
 
-	if (head == NULL)
-		return;
+    if (global_head == NULL)
+        return;
 
-	while (head != NULL)
-	{
-		tmp = head;
-		head = head->next;
-		free(tmp);
-	}
+    while (global_head != NULL)
+    {
+        temporary_node = global_head;
+        global_head = global_head->next;
+        free(temporary_node);
+    }
 }
-
 
 /**
  * add_to_queue - Adds a node to the queue.
  * @new_node: Pointer to the new node.
- * @ln: line number of the opcode.
+ * @line_number: line number of the opcode.
  */
-void add_to_queue(stack_t **new_node, __attribute__((unused))unsigned int ln)
+void add_to_queue(stack_t **new_node, __attribute__((unused))unsigned int line_number)
 {
-	stack_t *tmp;
+    stack_t *temporary_node;
 
-	if (new_node == NULL || *new_node == NULL)
-		exit(EXIT_FAILURE);
-	if (head == NULL)
-	{
-		head = *new_node;
-		return;
-	}
-	tmp = head;
-	while (tmp->next != NULL)
-		tmp = tmp->next;
+    if (new_node == NULL || *new_node == NULL)
+        exit(EXIT_FAILURE);
+    if (global_head == NULL)
+    {
+        global_head = *new_node;
+        return;
+    }
+    temporary_node = global_head;
+    while (temporary_node->next != NULL)
+        temporary_node = temporary_node->next;
 
-	tmp->next = *new_node;
-	(*new_node)->prev = tmp;
-
+    temporary_node->next = *new_node;
+    (*new_node)->prev = temporary_node;
 }
-
