@@ -27,15 +27,15 @@ int main(int argc, char *argv[])
  */
 stack_t *create_node(int n)
 {
-	stack_t *node;
+	stack_t *nd;
 
-	node = malloc(sizeof(stack_t));
-	if (node == NULL)
+	nd = malloc(sizeof(stack_t));
+	if (nd == NULL)
 		err(4);
-	node->next = NULL;
-	node->prev = NULL;
-	node->n = n;
-	return (node);
+	nd->next = NULL;
+	nd->prev = NULL;
+	nd->n = n;
+	return (nd);
 }
 
 /**
@@ -43,41 +43,40 @@ stack_t *create_node(int n)
  */
 void free_nodes(void)
 {
-	stack_t *tmp;
+	stack_t *temp;
 
 	if (head == NULL)
 		return;
 
 	while (head != NULL)
 	{
-		tmp = head;
+		temp = head;
 		head = head->next;
-		free(tmp);
+		free(temp);
 	}
 }
 
 
 /**
  * add_to_queue - Adds a node to the queue.
- * @new_node: Pointer to the new node.
+ * @new_nd: Pointer to the new node.
  * @ln: line number of the opcode.
  */
-void add_to_queue(stack_t **new_node, __attribute__((unused))unsigned int ln)
+void add_to_queue(stack_t **new_nd, __attribute__((unused))unsigned int ln)
 {
-	stack_t *tmp;
+	stack_t *temp;
 
-	if (new_node == NULL || *new_node == NULL)
+	if (new_nd == NULL || *new_nd == NULL)
 		exit(EXIT_FAILURE);
 	if (head == NULL)
 	{
-		head = *new_node;
+		head = *new_nd;
 		return;
 	}
-	tmp = head;
-	while (tmp->next != NULL)
-		tmp = tmp->next;
+	temp = head;
+	while (temp->next != NULL)
+		temp = temp->next;
 
-	tmp->next = *new_node;
-	(*new_node)->prev = tmp;
-
+	temp->next = *new_nd;
+	(*new_nd)->prev = temp;
 }
